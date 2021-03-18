@@ -54,17 +54,13 @@ if((!empty($_POST['user_name']) && $_POST['user_name']!='') && (!empty($_POST['u
 			$data['user_email'],
 		);
 
-
-		// $role_object = get_role('administrator');
-		// $role_object->add_cap( $data['user_role'], true );
-
 		$set_user_role = new WP_User($user_id);
 
 		$set_user_role->set_role($user_role);
 
 		// To check error for user creation part, using Wordpress Core function
 		if ( ! is_wp_error( $user_id ) ) {
-			$result['success_message'] = 'User created: ' . $user_id.' and Password: '.$data['password'];
+			$result['success_message'] = 'User created with Username: ' . $data['user_login'].' and Password: '.$data['password'].' Please save this first';
 			$result['user_name'] = $data['user_login']; 
 			$result['user_email'] = $data['user_email']; 
 			$result['user_role'] = $data['user_role']; 

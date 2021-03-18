@@ -43,6 +43,7 @@
 	 			dataType:'JSON',
 	 			success:function(result){
 	 				if(result.success==true){
+	 					alert(result.success_message);
 	 					document.getElementById("user_form_submit").reset();
 	 					if(rowCount>10){
 	 						$('#usersList > tbody > tr:last').remove();
