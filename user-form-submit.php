@@ -64,7 +64,10 @@ if((!empty($_POST['user_name']) && $_POST['user_name']!='') && (!empty($_POST['u
 
 		// To check error for user creation part, using Wordpress Core function
 		if ( ! is_wp_error( $user_id ) ) {
-			$result['success_message'] = 'User created: ' . $user_id.' and Password: '.$data['password']; 
+			$result['success_message'] = 'User created: ' . $user_id.' and Password: '.$data['password'];
+			$result['user_name'] = $data['user_login']; 
+			$result['user_email'] = $data['user_email']; 
+			$result['user_role'] = $data['user_role']; 
 			$result['success'] = true;
 		}
 	}

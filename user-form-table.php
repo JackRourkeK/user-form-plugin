@@ -1,5 +1,5 @@
 <?php
-$args = array('role__not_in' => 'Administrator', 'number' => 10);
+$args = array('role__not_in' => 'Administrator', 'number' => 10, 'orderby' => 'ID', 'order' => 'DESC');
 $user_query = new WP_User_Query( $args );
 
 $getRoles = array();
@@ -25,22 +25,22 @@ if ( ! empty( $user_query->get_results() ) ) { ?>
           <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addUser">Add User</button>
       <?php endif; ?>
   </div>
-  <table class="table">
+  <table class="table" id="usersList">
       <thead>
-       <tr>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Role</th>
-    </tr>
-</thead>
-<?php foreach ( $user_query->get_results() as $user ) { ?>
-   <tbody>
-    <tr>
-     <td><?=$user->user_login?></td>
-     <td><?=$user->user_email?></td>
-     <td><?=$user->roles[0]?></td>
- </tr>
-</tbody>
+         <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <?php foreach ( $user_query->get_results() as $user ) { ?>
+     <tbody>
+        <tr>
+           <td><?=$user->user_login?></td>
+           <td><?=$user->user_email?></td>
+           <td><?=$user->roles[0]?></td>
+       </tr>
+   </tbody>
 <?php }
 } else {
   echo 'No users found.';

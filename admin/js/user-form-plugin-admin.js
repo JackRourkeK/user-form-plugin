@@ -35,6 +35,7 @@
 	 		evt.preventDefault();
 	 		var form = $(this);
 	 		var url = form.attr('action');
+	 		var rowCount = $('#usersList tr').length;
 	 		$.ajax({
 	 			type:'POST',
 	 			url:url,
@@ -43,9 +44,13 @@
 	 			success:function(result){
 	 				if(result.success==true){
 	 					document.getElementById("user_form_submit").reset();
+	 					if(rowCount>10){
+	 						$('#usersList > tbody > tr:last').remove();
+	 					}
+	 					$('#usersList > tbody > tr:first').before("<tr><td>" + result.user_name + "</td><td>" + result.user_email + "</td><td>" + result.user_role + "</td></tr>");
+
 	 					$('#addUser').modal('hide');
 	 				}
-	 				console.log(result.success);
 	 			},
 	 			error:function(err){
 	 				console.log(err.responseText);
