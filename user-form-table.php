@@ -9,10 +9,11 @@ foreach (wp_roles()->role_objects as $roles) {
 }
 
 $is_admin = false;
-if(wp_get_current_user()->roles[0]=='administrator'){
-	$is_admin = true;
+if(is_user_logged_in()){
+    if(wp_get_current_user()->roles[0]=='administrator'){
+     $is_admin = true;
+ }
 }
-
 
 // User Loop through the result
 if ( ! empty( $user_query->get_results() ) ) { ?>
@@ -20,27 +21,26 @@ if ( ! empty( $user_query->get_results() ) ) { ?>
 		<h3>Users</h3> 
 		<?php
 		if($is_admin):
-          ?> 
-          <!-- <a id="addUser" title="Add User" value="addUser">Add User</a> -->
+          ?>
           <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addUser">Add User</button>
       <?php endif; ?>
   </div>
   <table class="table" id="usersList">
       <thead>
-         <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-        </tr>
-    </thead>
-    <?php foreach ( $user_query->get_results() as $user ) { ?>
-     <tbody>
-        <tr>
-           <td><?=$user->user_login?></td>
-           <td><?=$user->user_email?></td>
-           <td><?=$user->roles[0]?></td>
-       </tr>
-   </tbody>
+       <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+    </tr>
+</thead>
+<?php foreach ( $user_query->get_results() as $user ) { ?>
+   <tbody>
+    <tr>
+     <td><?=$user->user_login?></td>
+     <td><?=$user->user_email?></td>
+     <td><?=$user->roles[0]?></td>
+ </tr>
+</tbody>
 <?php }
 } else {
   echo 'No users found.';
@@ -87,9 +87,3 @@ if ( ! empty( $user_query->get_results() ) ) { ?>
 </div>
 </div>
 </div>
-
-<script type="text/javascript">
-    $( document ).ready( function () {
-        validateFormSubmit('user_form_submit');
-    });
-</script>
