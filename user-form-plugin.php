@@ -80,3 +80,34 @@ function run_user_form_plugin() {
 
 }
 run_user_form_plugin();
+
+// Initialization of User Form Plugin to show User Form
+function user_form_plugin()
+{
+	// Loading the user form for the consistency.
+	require plugin_dir_path( __FILE__ ) . 'user-form-table.php';
+}
+add_shortcode('example', 'user_form_plugin');
+
+function head_code() {
+	$output = '';
+	if(is_single()){
+		$output .= '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">';    
+		$output .= '<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>';    
+		$output .= '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>';    
+		$output .= '<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>';    
+		$output .= '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>'; 
+		$output .= '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.min.js"></script>'; 
+		$output .= '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>';
+		$output .= '<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>'; 
+	}
+	echo $output;
+
+}
+add_action('wp_head','head_code');
+
+function my_plugin_scripts() {
+	wp_enqueue_script( 'user-form-script', plugin_dir_url( __FILE__ ) . 'admin/js/user-form-plugin-admin.js', array( 'jquery' ), '1.0.0', true );
+	wp_enqueue_script( 'custom-validation-script', plugin_dir_url( __FILE__ ) . 'admin/js/custom-validation.js', array( 'jquery' ), '1.0.0', true );
+}
+add_action( 'wp_enqueue_scripts', 'my_plugin_scripts' );
