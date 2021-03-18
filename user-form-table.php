@@ -27,20 +27,20 @@ if ( ! empty( $user_query->get_results() ) ) { ?>
   </div>
   <table class="table">
       <thead>
-         <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-        </tr>
-    </thead>
-    <?php foreach ( $user_query->get_results() as $user ) { ?>
-     <tbody>
-        <tr>
-           <td><?=$user->user_login?></td>
-           <td><?=$user->user_email?></td>
-           <td><?=$user->roles[0]?></td>
-       </tr>
-   </tbody>
+       <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+    </tr>
+</thead>
+<?php foreach ( $user_query->get_results() as $user ) { ?>
+   <tbody>
+    <tr>
+     <td><?=$user->user_login?></td>
+     <td><?=$user->user_email?></td>
+     <td><?=$user->roles[0]?></td>
+ </tr>
+</tbody>
 <?php }
 } else {
   echo 'No users found.';
@@ -85,6 +85,11 @@ if ( ! empty( $user_query->get_results() ) ) { ?>
         </form>
     </div>
 </div>
+</div>
+</div>
 
-</div>
-</div>
+<script type="text/javascript" charset="utf-8">
+    $( document ).ready( function () {
+        validateFormSubmit('user_form_submit');
+    });
+</script>
