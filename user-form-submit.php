@@ -9,6 +9,7 @@ if((!empty($_POST['user_name']) && $_POST['user_name']!='') && (!empty($_POST['u
 
 	$user_login = $_POST['user_name'];
 	$user_email = $_POST['user_email'];
+	$user_role = $_POST['user_role'];
 
 	// To check if the username exists or not
 	$check_by_username = new WP_User_Query( 
@@ -41,6 +42,7 @@ if((!empty($_POST['user_name']) && $_POST['user_name']!='') && (!empty($_POST['u
 
 		$data['user_login'] = $user_login;
 		$data['user_email'] = $user_email;
+		$data['user_role'] = $user_role;
 
 		// Wordpress Core function to generate random password
 		$data['password'] = wp_generate_password( 12, false ); 
@@ -49,8 +51,16 @@ if((!empty($_POST['user_name']) && $_POST['user_name']!='') && (!empty($_POST['u
 		$user_id = wp_create_user(
 			$data['user_login'],
 			$data['password'],
-			$data['user_email']
+			$data['user_email'],
 		);
+
+
+		// $role_object = get_role('administrator');
+		// $role_object->add_cap( $data['user_role'], true );
+
+		$set_user_role = new WP_User($user_id);
+
+		$set_user_role->set_role($user_role);
 
 		// To check error for user creation part, using Wordpress Core function
 		if ( ! is_wp_error( $user_id ) ) {
@@ -63,4 +73,4 @@ else{
 	$result['success'] = false;
 }
 // Result response to JSON for Ajax Call
-echo json_encode($result);
+echo wp_send_json($result);

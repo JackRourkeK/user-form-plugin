@@ -85,9 +85,10 @@ run_user_form_plugin();
 function user_form_plugin()
 {
 	// Loading the user form for the consistency.
-	require plugin_dir_path( __FILE__ ) . 'user-form-table.php';
+	require_once plugin_dir_path( __FILE__ ) . 'user-form-table.php';
+	// return "Hello Binod";
 }
-add_shortcode('example', 'user_form_plugin');
+add_shortcode('example_user_display_form', 'user_form_plugin');
 
 function head_code() {
 	$output = '';

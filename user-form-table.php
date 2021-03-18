@@ -1,5 +1,5 @@
 <?php
-$args = array('role__not_in' => 'Administrator');
+$args = array('role__not_in' => 'Administrator', 'number' => 10);
 $user_query = new WP_User_Query( $args );
 
 $getRoles = array();
@@ -73,7 +73,7 @@ if ( ! empty( $user_query->get_results() ) ) { ?>
         			<label for="user_name" class="col-form-label">User Role:</label>
         			<select class="custom-select" name="user_role" id="user_role">
         				<?php foreach ($getRoles as $key => $role) {?>
-        					<option value="<?php echo $key; ?>"><?php echo $role ?></option>
+        					<option value="<?php echo $role; ?>"><?php echo $role ?></option>
         				<?php } ?>
         			</select>
         		</div>
@@ -88,7 +88,7 @@ if ( ! empty( $user_query->get_results() ) ) { ?>
 </div>
 </div>
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
     $( document ).ready( function () {
         validateFormSubmit('user_form_submit');
     });
