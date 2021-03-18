@@ -91,25 +91,26 @@ function user_form_plugin()
 }
 add_shortcode('example_user_display_form', 'user_form_plugin');
 
-function head_code() {
-	$output = '';
-	if(!is_admin()){
-		$output .= '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">';    
-		$output .= '<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>';    
-		$output .= '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>';    
-		$output .= '<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>';    
-		$output .= '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>'; 
-		$output .= '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.min.js"></script>'; 
-		$output .= '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>';
-		$output .= '<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>'; 
-	}
-	echo $output;
-
-}
-add_action('wp_head','head_code');
-
 function my_plugin_scripts() {
-	wp_enqueue_script( 'user-form-script', plugin_dir_url( __FILE__ ) . 'admin/js/user-form-plugin-admin.js', array( 'jquery' ), '1.0.0', true );
-	wp_enqueue_script( 'custom-validation-script', plugin_dir_url( __FILE__ ) . 'admin/js/custom-validation.js', array( 'jquery' ), '1.0.0', true );
+	
+	wp_enqueue_script( 'bootstrap-script', plugin_dir_url( __FILE__ ) . 'public/js/bootstrap.min.js', array( 'jquery' ), '1.0.0', false );
+
+	wp_enqueue_script( 'jquery-slim-script', plugin_dir_url( __FILE__ ) . 'public/js/jquery-3.2.1.slim.min.js', array( 'jquery' ), '1.0.0', false );
+
+	wp_enqueue_script( 'jquery-script', plugin_dir_url( __FILE__ ) . 'public/js/jquery.min.js', array( 'jquery' ), '1.0.0', false );
+
+	wp_enqueue_script( 'jquery-popper-script', plugin_dir_url( __FILE__ ) . 'public/js/popper.min.js', array( 'jquery' ), '1.0.0', false );
+
+	wp_enqueue_script( 'jquery-validate-script', plugin_dir_url( __FILE__ ) . 'public/js/jquery-validate.min.js', array( 'jquery' ), '1.0.0', false );
+
+	wp_enqueue_script( 'jquery-validate-additional-script', plugin_dir_url( __FILE__ ) . 'public/js/additional-methods.min.js', array( 'jquery' ), '1.0.0', false );
+
+	wp_enqueue_script( 'custom-validation-script', plugin_dir_url( __FILE__ ) . 'public/js/custom-validation.js', array( 'jquery' ), '1.0.0', false );
 }
 add_action( 'wp_enqueue_scripts', 'my_plugin_scripts' );
+
+function my_plugin_styles()
+{
+	wp_enqueue_style( 'bootstrap', plugin_dir_url( __FILE__ ) . '/public/css/bootstrap.min.css',false,'1.1','all' );
+}
+add_action('wp_enqueue_scripts', 'my_plugin_styles');

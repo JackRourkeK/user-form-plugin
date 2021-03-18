@@ -29,4 +29,36 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
-})( jQuery );
+	 $.noConflict();
+	 jQuery(document).ready(function(){
+	 	validateFormSubmit('user_form_submit');
+	 	$("#user_form_submit").on('submit', function(evt){
+	 		evt.preventDefault();
+	 		var form = $(this);
+	 		var url = form.attr('action');
+	 		var rowCount = $('#usersList tr').length;
+	 		$.ajax({
+	 			type:'POST',
+	 			url:url,
+	 			data:form.serialize(),
+	 			dataType:'JSON',
+	 			success:function(result){
+	 				if(result.success==true){
+	 					alert(result.success_message);
+	 					document.getElementById("user_form_submit").reset();
+	 					if(rowCount>10){
+	 						$('#usersList > tbody > tr:last').remove();
+	 					}
+	 					$('#usersList > tbody > tr:first').before("<tr><td>" + result.user_name + "</td><td>" + result.user_email + "</td><td>" + result.user_role + "</td></tr>");
+
+	 					$('#addUser').modal('hide');
+	 				}
+	 			},
+	 			error:function(err){
+	 				console.log(err.responseText);
+	 			}
+	 		});
+	 	});
+	 });
+
+	})( jQuery );
