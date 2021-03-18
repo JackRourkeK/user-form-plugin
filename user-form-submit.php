@@ -7,9 +7,9 @@ $result = array();
 
 if((!empty($_POST['user_name']) && $_POST['user_name']!='') && (!empty($_POST['user_email']) && $_POST['user_email']!='')){
 
-	$user_login = $_POST['user_name'];
-	$user_email = $_POST['user_email'];
-	$user_role = $_POST['user_role'];
+	$user_login = sanitize_text_field($_POST['user_name']);
+	$user_email = sanitize_text_field($_POST['user_email']);
+	$user_role = sanitize_text_field($_POST['user_role']);
 
 	// To check if the username exists or not
 	$check_by_username = new WP_User_Query( 
