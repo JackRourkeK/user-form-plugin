@@ -85,14 +85,15 @@ run_user_form_plugin();
 function user_form_plugin()
 {
 	// Loading the user form for the consistency.
-	require_once plugin_dir_path( __FILE__ ) . 'user-form-table.php';
-	// return "Hello Binod";
+	if(!is_admin()){
+		require_once plugin_dir_path( __FILE__ ) . 'user-form-table.php';
+	}
 }
 add_shortcode('example_user_display_form', 'user_form_plugin');
 
 function head_code() {
 	$output = '';
-	if(is_single()){
+	if(!is_admin()){
 		$output .= '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">';    
 		$output .= '<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>';    
 		$output .= '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>';    
