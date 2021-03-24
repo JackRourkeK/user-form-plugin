@@ -85,13 +85,55 @@ run_user_form_plugin();
 function user_form_plugin()
 {
 	// Loading the user form for the consistency.
-	if(!is_admin()){
-		require_once plugin_dir_path( __FILE__ ) . 'user-form-table.php';
-	}
-}
-add_shortcode('example_user_display_form', 'user_form_plugin');
+	// if(!is_admin()){
+	// 	require_once(plugin_dir_path( __FILE__ ) . 'user-form-table.php');
+	// }
+	$args = array('role__not_in' => 'Administrator', 'number' => 10, 'orderby' => 'ID', 'order' => 'DESC');
+	$user_query = new WP_User_Query( $args );
 
-function my_plugin_scripts() {
+	$getRoles = array();
+
+	foreach (wp_roles()->role_objects as $roles) {
+		$getRoles[] = $roles->name;
+	}
+
+	$is_admin = false;
+	if(is_user_logged_in()){
+		if(wp_get_current_user()->roles[0]=='administrator'){
+			$is_admin = true;
+		}
+	}
+
+	$table_contents = '';
+
+	$table_contents .= '<div><h3>Users</h3>';
+	if($is_admin){
+		$table_contents .= '<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addUser">Add User</button>';
+	}
+
+	$table_contents .=  '</div> <table class="table" id="usersList" style="border-top: 2px solid black !important"> <thead> <tr> <th>Username</th> <th>Email</th> <th>Role</th> </tr> </thead>';
+
+	if ( ! empty( $user_query->get_results() ) ) { 
+		foreach ( $user_query->get_results() as $user ) {
+			$table_contents .= '<tbody style="border-bottom: 2px solid black !important" > <tr>'.'<td>'.$user->user_login.'</td>'.'<td>'.$user->user_email.'</td>'.'<td>'.$user->roles[0].'</td>';
+			$table_contents .= '</tr> </tbody>';
+		}
+	}else{
+		$table_contents .= '<tbody> <tr style="border: 2px solid black !important"> <td colspan="3" id="no_user_exists">No Users Found.</td> </tr> </tbody>';
+	}
+	$table_contents .= '</table> <div id="addUser" class="modal fade" role="dialog"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-header"> <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> --> <h4 class="modal-title">Add New User</h4> </div> <div class="modal-body"> <form id="user_form_submit" action="'.plugin_dir_url( __FILE__ ).'user-form-submit.php"';
+	$table_contents .= ' method="POST"> <div class="container"> <input type="hidden" id="action_url"> <div class="form-group"> <label for="user_name" class="col-form-label">Username:</label> <input type="text" class="form-control" name="user_name" id="user_name"> </div> <div class="form-group"> <label for="user_email" class="col-form-label">Email:</label> <input type="text" class="form-control" name="user_email" id="user_email"> </div> <div class="form-group"> <label for="user_role" class="col-form-label">User Role:</label> <select class="custom-select" name="user_role" id="user_role">';
+	foreach ($getRoles as $key => $role) {
+		$table_contents .= '<option value="'.$role.'">'.$role.'</option>';
+	}
+	$table_contents .= '</select> </div> </div> <div class="modal-footer"> <button type="submit" class="btn btn-primary" name="saveUser">Save</button> <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> </div> </form> </div> </div> </div> </div>';
+	return $table_contents;
+
+
+}
+add_shortcode('balram_user_display_form', 'user_form_plugin');
+
+function user_form_plugin_scripts() {
 	
 	wp_enqueue_script( 'bootstrap-script', plugin_dir_url( __FILE__ ) . 'public/js/bootstrap.min.js', array( 'jquery' ), '1.0.0', false );
 
@@ -107,10 +149,10 @@ function my_plugin_scripts() {
 
 	wp_enqueue_script( 'custom-validation-script', plugin_dir_url( __FILE__ ) . 'public/js/custom-validation.js', array( 'jquery' ), '1.0.0', false );
 }
-add_action( 'wp_enqueue_scripts', 'my_plugin_scripts' );
+add_action( 'wp_enqueue_scripts', 'user_form_plugin_scripts' );
 
-function my_plugin_styles()
+function user_form_plugin_styles()
 {
 	wp_enqueue_style( 'bootstrap', plugin_dir_url( __FILE__ ) . '/public/css/bootstrap.min.css',false,'1.1','all' );
 }
-add_action('wp_enqueue_scripts', 'my_plugin_styles');
+add_action('wp_enqueue_scripts', 'user_form_plugin_styles');

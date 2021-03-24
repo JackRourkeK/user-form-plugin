@@ -49,9 +49,16 @@
 	 					if(rowCount>10){
 	 						$('#usersList > tbody > tr:last').remove();
 	 					}
+	 					if(($('#no_user_exists').is(':empty')==false)){
+	 						$('#no_user_exists').remove();
+	 					}
 	 					$('#usersList > tbody > tr:first').before("<tr><td>" + result.user_name + "</td><td>" + result.user_email + "</td><td>" + result.user_role + "</td></tr>");
 
 	 					$('#addUser').modal('hide');
+	 				}else{
+	 					if(result.user_name==false || result.user_email==false){
+	 						alert('Username/Email Already Exists!');
+	 					}
 	 				}
 	 			},
 	 			error:function(err){

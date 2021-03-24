@@ -38,6 +38,8 @@ if((!empty($_POST['user_name']) && $_POST['user_name']!='') && (!empty($_POST['u
 	// To check whether the submitted form has either same username or same email exists or not.
 	if(!empty($check_by_username->get_results()) || (!empty($check_by_email->get_results()))){
 		$result['success'] = false;
+		$result['user_name'] = false;
+		$result['user_email'] = false;
 	}else{
 
 		$data['user_login'] = $user_login;
